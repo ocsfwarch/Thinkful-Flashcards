@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { createDeck, readDeck, updateDeck } from "../../utils/api/index";
 import { useHistory, useParams } from "react-router-dom";
+import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
 const DeckForm = () => {
   const [deck, setDeck] = useState({ name: "", description: "" });
+  const [crumbs, setCrumbs] = useState([]);
   const history = useHistory();
   const { deckId } = useParams();
 
@@ -16,12 +18,38 @@ const DeckForm = () => {
           const theDeck = await readDeck(deckId, controller.signal);
           if (theDeck) {
             setDeck(theDeck);
+            setCrumbs(
+              (current) =>
+                (current = [
+                  { id: 0, title: "Home", type: "link", value: "" },
+                  {
+                    id: 1,
+                    title: "Edit Deck",
+                    type: "text",
+                    value: "Edit Deck",
+                  },
+                ])
+            );
           }
+        } else {
+          setCrumbs(
+            (current) =>
+              (current = [
+                { id: 0, title: "Home", type: "link", value: "" },
+                {
+                  id: 1,
+                  title: "Create Deck",
+                  type: "text",
+                  value: "Create Deck",
+                },
+              ])
+          );
         }
       } catch (error) {
         console.log(`ERROR: ${error.message}`);
       }
     }
+
     getDeck();
     return () => {
       console.log(`getDeck DONE`);
@@ -71,6 +99,7 @@ const DeckForm = () => {
 
   return (
     <section>
+      <BreadCrumb linkId={"DeckForm"} crumbs={crumbs} />
       <h1>{deckId ? "Edit Deck" : "Create Deck"}</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
