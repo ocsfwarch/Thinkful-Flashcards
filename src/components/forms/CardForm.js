@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { readDeck } from "../../utils/api/index";
+import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
 const CardForm = () => {
   const [deck, setDeck] = useState({});
+  const [crumbs, setCrumbs] = useState([]);
   const { deckId } = useParams();
   useEffect(() => {
     controller = new AbortController();
@@ -13,6 +15,24 @@ const CardForm = () => {
         const theDeck = await readDeck(deckId, controller.signal);
         if (theDeck) {
           setDeck(theDeck);
+          setCrumbs(
+            (current) =>
+              (current = [
+                { id: 0, title: "Home", type: "link", value: "" },
+                {
+                  id: 1,
+                  title: theDeck.name,
+                  type: "link",
+                  value: `decks/${deckId}`,
+                },
+                {
+                  id: 2,
+                  title: "Add Card",
+                  type: "text",
+                  value: "Add Card",
+                },
+              ])
+          );
         }
       } catch (error) {
         console.log(`ERROR: ${error.message}`);
@@ -27,6 +47,7 @@ const CardForm = () => {
 
   return (
     <div>
+      <BreadCrumb linkId={"CardForm"} crumbs={crumbs} />
       <h1>{deck.name}: Add Card</h1>
       <form>
         <label htmlFor="front">
