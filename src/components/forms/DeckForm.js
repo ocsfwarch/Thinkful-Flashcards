@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
-const DeckForm = () => {
+const DeckForm = ({ setUpdateDecks }) => {
   const [deck, setDeck] = useState({ name: "", description: "" });
   const [crumbs, setCrumbs] = useState([]);
   const history = useHistory();
@@ -78,6 +78,7 @@ const DeckForm = () => {
     try {
       const newDeck = await createDeck(deck, controller.signal);
       if (newDeck) {
+        setUpdateDecks(true);
         history.push(`/decks/${newDeck.id}`);
       }
     } catch (error) {
@@ -90,6 +91,7 @@ const DeckForm = () => {
     try {
       const newDeck = await updateDeck(deck, controller.signal);
       if (newDeck) {
+        setUpdateDecks(true);
         history.push(`/decks/${newDeck.id}`);
       }
     } catch (error) {

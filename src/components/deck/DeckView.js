@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { readDeck } from "../utils/api/index";
+import { readDeck } from "../../utils/api/index";
 import Deck from "./Deck";
 import Card from "./Card";
-import BreadCrumb from "./controls/BreadCrumb";
+import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
 const DeckView = ({ handleDelete }) => {
