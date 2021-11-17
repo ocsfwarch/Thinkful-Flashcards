@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { readDeck } from "../../utils/api/index";
+import { useParams, useHistory } from "react-router-dom";
+import { readDeck, createCard, updateCard } from "../../utils/api/index";
 import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
 const CardForm = () => {
+  const { deckId, cardId } = useParams();
   const [deck, setDeck] = useState({});
+  const [card, setCard] = useState({ deckId: deckId, front: "", back: "" });
   const [crumbs, setCrumbs] = useState([]);
-  const { deckId } = useParams();
+  const history = useHistory();
+
   useEffect(() => {
     controller = new AbortController();
     async function getDeck() {
       try {
         const theDeck = await readDeck(deckId, controller.signal);
         if (theDeck) {
+          //console.log(`Setting the deck, ${theDeck.cards.length}`);
           setDeck(theDeck);
+          // Set the card
+          const theCard = await theDeck.cards.find(
+            (card) => +card.id === +cardId
+          );
+          if (theCard) {
+            setCard(theCard);
+          }
           setCrumbs(
             (current) =>
               (current = [
@@ -27,9 +38,9 @@ const CardForm = () => {
                 },
                 {
                   id: 2,
-                  title: "Add Card",
+                  title: cardId ? "Edit Card" : "Add Card",
                   type: "text",
-                  value: "Add Card",
+                  value: cardId ? "Edit Card" : "Add Card",
                 },
               ])
           );
@@ -43,21 +54,95 @@ const CardForm = () => {
       console.log(`getDeck DONE`);
       controller.abort();
     };
-  }, [deckId]);
+  }, [deckId, cardId]);
+
+  const handleChange = (e) => {
+    //console.log(`val = ${e.target.value}`);
+    setCard({ ...card, [e.target.name]: e.target.value });
+  };
+
+  const handleDone = (e) => {
+    e.preventDefault();
+    history.goBack();
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //console.log(`CAlling submit, deckId = ${deckId}, cardId = ${cardId}`);
+    if (deckId && cardId) {
+      modifyCard();
+      history.goBack();
+    } else {
+      addCard();
+      console.log(`clearing card`);
+      setCard({ deckId: deckId, front: "", back: "" });
+    }
+  };
+
+  const modifyCard = async () => {
+    controller = new AbortController();
+    try {
+      // Make sure there is a cardId
+      setCard({ ...card, [`id`]: cardId });
+      const results = await updateCard(card, controller.signal);
+      if (results) {
+        console.log(`The card was updated`);
+      } else {
+        console.log(`The card was not updated.`);
+      }
+    } catch (error) {
+      console.log(`ERROR: ${error.message}`);
+    }
+  };
+
+  const addCard = async () => {
+    controller = new AbortController();
+    console.log(`front = ${card.front}, back = ${card.back}`);
+    try {
+      const results = await createCard(deckId, card, controller.signal);
+      if (results) {
+        console.log(`The card was created`);
+      } else {
+        console.log(`The card was not created.`);
+      }
+    } catch (error) {
+      console.log(`ERROR: ${error.message}`);
+    }
+  };
 
   return (
     <div>
       <BreadCrumb linkId={"CardForm"} crumbs={crumbs} />
-      <h1>{deck.name}: Add Card</h1>
-      <form>
+      <h1>
+        {deck.name}: {cardId ? "Edit Card" : "Add Card"}
+      </h1>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="front">
-          <textarea id="front" name="front"></textarea>
+          <textarea
+            id="front"
+            name="front"
+            onChange={handleChange}
+            value={card.front}
+            required
+          ></textarea>
         </label>
         <label htmlFor="back">
-          <textarea id="back" name="back"></textarea>
+          <textarea
+            id="back"
+            name="back"
+            onChange={handleChange}
+            value={card.back}
+            required
+          ></textarea>
         </label>
-        <button type="none">Done</button>
-        <button type="submit">Save</button>
+        <button type="button" className="btn btn-danger" onClick={handleDone}>
+          <span className="oi oi-x" />
+          <span className="pl-3 font-weight-bold">Done</span>
+        </button>
+        <button type="submit" className="btn btn-success">
+          <span className="oi oi-plus" />
+          <span className="pl-3 font-weight-bold">Submit</span>
+        </button>
       </form>
     </div>
   );

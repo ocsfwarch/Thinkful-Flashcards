@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Deck from "./Deck";
 
-const DeckList = ({ decks, handleDelete }) => {
+const DeckList = ({ decks, handleDeckDelete }) => {
   const [display, setDisplay] = useState([]);
   useEffect(() => {
     async function mapDecks() {
@@ -10,7 +10,7 @@ const DeckList = ({ decks, handleDelete }) => {
           <Deck
             key={deck.id}
             deck={deck}
-            handleDelete={handleDelete}
+            handleDeckDelete={handleDeckDelete}
             showTotal={true}
           />
         );
@@ -24,7 +24,7 @@ const DeckList = ({ decks, handleDelete }) => {
     if (decks && decks.length && display.length !== decks.length) {
       mapDecks();
     }
-  }, [display, decks, handleDelete]);
+  }, [display, decks, handleDeckDelete]);
   return <div>{display}</div>;
 };
 

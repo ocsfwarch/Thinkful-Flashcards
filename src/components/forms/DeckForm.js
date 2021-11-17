@@ -121,9 +121,13 @@ const DeckForm = ({ setUpdateDecks }) => {
           value={deck.description}
           required
         ></textarea>
-        <button type="submit">Submit</button>
-        <button type="none" onClick={handleCancel}>
-          Cancel
+        <button type="button" className="btn btn-danger" onClick={handleCancel}>
+          <span className="oi oi-x" />
+          <span className="pl-3 font-weight-bold">Cancel</span>
+        </button>
+        <button type="submit" className="btn btn-success">
+          <span className="oi oi-plus" />
+          <span className="pl-3 font-weight-bold">Submit</span>
         </button>
       </form>
     </section>

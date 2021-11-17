@@ -7,6 +7,7 @@ import DeckList from "../components/deck/DeckList";
 import DeckForm from "../components/forms/DeckForm";
 import CardForm from "../components/forms/CardForm";
 import DeckView from "../components/deck/DeckView";
+import StudyView from "../components/study/StudyView";
 import { deleteDeck, listDecks } from "../utils/api/index";
 import { useHistory } from "react-router-dom";
 
@@ -38,7 +39,7 @@ function Layout() {
     };
   }, [updateDecks]);
 
-  const handleDelete = async (deckId) => {
+  const handleDeckDelete = async (deckId) => {
     const result = window.confirm(
       `Are you sure you want to delete this deckId = ${deckId}?`
     );
@@ -68,7 +69,7 @@ function Layout() {
         <Switch>
           <Route exact path="/">
             <CreateDeckBtn />
-            <DeckList decks={decks} handleDelete={handleDelete} />
+            <DeckList decks={decks} handleDeckDelete={handleDeckDelete} />
           </Route>
           <Route path="/decks/new">
             <DeckForm setUpdateDecks={setUpdateDecks} />
@@ -79,8 +80,14 @@ function Layout() {
           <Route path="/decks/:deckId/cards/new">
             <CardForm />
           </Route>
+          <Route path="/decks/:deckId/cards/:cardId/edit">
+            <CardForm />
+          </Route>
+          <Route path="/decks/:deckId/study">
+            <StudyView />
+          </Route>
           <Route path="/decks/:deckId">
-            <DeckView handleDelete={handleDelete} />
+            <DeckView handleDeckDelete={handleDeckDelete} />
           </Route>
           <NotFound />
         </Switch>
