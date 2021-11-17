@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Deck = ({ deck, handleDeckDelete, showTotal }) => {
   return (
-    <div>
+    <div className="base-container">
       <div>
         <span>{deck.name}</span>{" "}
         <span>{showTotal ? `${deck.cards.length} cards` : ""}</span>
