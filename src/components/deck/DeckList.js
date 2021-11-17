@@ -25,7 +25,7 @@ const DeckList = ({ decks, handleDeckDelete }) => {
       mapDecks();
     }
   }, [display, decks, handleDeckDelete]);
-  return <div>{display}</div>;
+  return <div className="deck-list-container">{display}</div>;
 };
 
 export default DeckList;
