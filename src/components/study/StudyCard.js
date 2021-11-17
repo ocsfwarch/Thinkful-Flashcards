@@ -26,14 +26,14 @@ const StudyCard = ({ deck }) => {
       } else {
         const result = window.confirm(`Restart cards?`);
         if (result) {
-          history.push("/");
-        } else {
           setStudyState({
             current: 0,
             front: deck.cards[0].front,
             back: deck.cards[0].back,
             isFlipped: false,
           });
+        } else {
+          history.push("/");
         }
       }
     }
@@ -52,8 +52,8 @@ const StudyCard = ({ deck }) => {
         <span className="pl-3 font-weight-bold">Flip</span>
       </button>
       {studyState.isFlipped ? (
-        <button type="button" className="btn btn-success" onClick={handleFlip}>
-          <span className="oi oi-bolt" />
+        <button type="button" className="btn btn-primary" onClick={handleFlip}>
+          <span className="oi oi-arrow-circle-right" />
           <span className="pl-3 font-weight-bold">Next</span>
         </button>
       ) : (
