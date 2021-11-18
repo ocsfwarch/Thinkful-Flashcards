@@ -6,6 +6,7 @@
       status - This is a string containing status information.
 */
 
+import React from "react";
 function Status(props) {
   return <section className="status">{props.status}</section>;
 }
