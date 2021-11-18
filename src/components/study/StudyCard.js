@@ -24,7 +24,9 @@ const StudyCard = ({ deck }) => {
           isFlipped: false,
         });
       } else {
-        const result = window.confirm(`Restart cards?`);
+        const result = window.confirm(
+          `Restart cards?\n\nClick 'cancel' to return to the home page.`
+        );
         if (result) {
           setStudyState({
             current: 0,

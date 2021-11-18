@@ -40,7 +40,9 @@ const DeckView = ({ handleDeckDelete }) => {
   }, [deckId]);
 
   const handleCardDelete = async (cardId) => {
-    const result = window.confirm(`Are you sure you want to delete this card?`);
+    const result = window.confirm(
+      `Delete this card?\n\nYou will not be able to recover it.`
+    );
     if (result) {
       console.log(`HANDLING DELETE`);
       controller = new AbortController();
