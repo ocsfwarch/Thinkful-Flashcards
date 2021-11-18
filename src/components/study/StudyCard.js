@@ -7,13 +7,17 @@ const StudyCard = ({ deck }) => {
     front: deck.cards[0].front,
     back: deck.cards[0].back,
     isFlipped: false,
+    isFlipping: false,
   });
+  const [content, setContent] = useState(deck.cards[0].front);
   const history = useHistory();
 
   const handleFlip = (e) => {
     e.preventDefault();
     if (!studyState.isFlipped) {
-      setStudyState({ ...studyState, isFlipped: true });
+      setStudyState({ ...studyState, isFlipped: true, isFlipping: true });
+      rotateCard();
+      //setContent(studyState.isFlipped ? studyState.back : studyState.front);
     } else {
       const next = studyState.current + 1;
       if (next < deck.cards.length) {
@@ -23,6 +27,7 @@ const StudyCard = ({ deck }) => {
           back: deck.cards[next].back,
           isFlipped: false,
         });
+        setContent(deck.cards[next].front);
       } else {
         const result = window.confirm(
           `Restart cards?\n\nClick 'cancel' to return to the home page.`
@@ -34,12 +39,31 @@ const StudyCard = ({ deck }) => {
             back: deck.cards[0].back,
             isFlipped: false,
           });
+          setContent(deck.cards[0].front);
         } else {
           history.push("/");
         }
       }
     }
   };
+
+  function rotateCard() {
+    const cardDisplay = document.querySelector(`#card-display`);
+    if (cardDisplay) {
+      cardDisplay.style.animation = "rotate_front .75s linear forwards";
+    }
+  }
+
+  function handleRotateAnimationEnd(event) {
+    event.preventDefault();
+    const cardDisplay = document.querySelector(`#card-display`);
+    if (cardDisplay) {
+      cardDisplay.style.animation = "rotate_back .75s linear forwards";
+      setContent(studyState.isFlipped ? studyState.back : studyState.front);
+      setStudyState({ ...studyState, isFlipping: false });
+    }
+  }
+
   return (
     <div className="card add-shadow">
       <div className="card-header">
@@ -50,7 +74,9 @@ const StudyCard = ({ deck }) => {
         </div>
       </div>
       <div className="card-body card-text">
-        {studyState.isFlipped ? studyState.back : studyState.front}
+        <div id="card-display" onAnimationEnd={handleRotateAnimationEnd}>
+          {content}
+        </div>
       </div>
       <div className="card-footer">
         <button
@@ -67,6 +93,7 @@ const StudyCard = ({ deck }) => {
             type="button"
             className="btn btn-primary"
             onClick={handleFlip}
+            disabled={studyState.isFlipping}
           >
             <span className="oi oi-arrow-circle-right" />
             <span className="pl-3 font-weight-bold">Next</span>
