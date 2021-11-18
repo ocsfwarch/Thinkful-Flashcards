@@ -26,13 +26,13 @@ const BreadCrumb = ({ crumbs, linkId }) => {
         </li>
       );
     });
-    setCrumbList((current) => (current = [...links]));
+    setCrumbList([...links]);
   }, [crumbs, linkId]);
 
   return (
-    <div className="nav">
+    <nav>
       <ul>{crumbList}</ul>
-    </div>
+    </nav>
   );
 };
 
