@@ -18,32 +18,26 @@ const DeckForm = ({ setUpdateDecks, updateStatus }) => {
           const theDeck = await readDeck(deckId, controller.signal);
           if (theDeck) {
             setDeck(theDeck);
-            setCrumbs(
-              (current) =>
-                (current = [
-                  { id: 0, title: "Home", type: "link", value: "" },
-                  {
-                    id: 1,
-                    title: "Edit Deck",
-                    type: "text",
-                    value: "Edit Deck",
-                  },
-                ])
-            );
+            setCrumbs([
+              { id: 0, title: "Home", type: "link", value: "" },
+              {
+                id: 1,
+                title: "Edit Deck",
+                type: "text",
+                value: "Edit Deck",
+              },
+            ]);
           }
         } else {
-          setCrumbs(
-            (current) =>
-              (current = [
-                { id: 0, title: "Home", type: "link", value: "" },
-                {
-                  id: 1,
-                  title: "Create Deck",
-                  type: "text",
-                  value: "Create Deck",
-                },
-              ])
-          );
+          setCrumbs([
+            { id: 0, title: "Home", type: "link", value: "" },
+            {
+              id: 1,
+              title: "Create Deck",
+              type: "text",
+              value: "Create Deck",
+            },
+          ]);
         }
       } catch (error) {
         updateStatus(`ERROR: ${error.message}`);

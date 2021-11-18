@@ -40,7 +40,7 @@ function Layout() {
           setUpdateDecks(false);
         }
       } catch (error) {
-        updateStatus(`ERROR: ${error.message}`);
+        updateStatus(`ERROR111: ${error.message}`);
       }
     }
     getDecks();
@@ -58,7 +58,7 @@ function Layout() {
       try {
         const results = await deleteDeck(deckId, controller.signal);
         if (results) {
-          setUpdateDecks((current) => (current = true));
+          setUpdateDecks(true);
         }
       } catch (error) {
         updateStatus(`ERROR = ${error.message}`);
@@ -94,10 +94,16 @@ function Layout() {
             />
           </Route>
           <Route path="/decks/:deckId/cards/new">
-            <CardForm updateStatus={updateStatus} />
+            <CardForm
+              updateStatus={updateStatus}
+              setUpdateDecks={setUpdateDecks}
+            />
           </Route>
           <Route path="/decks/:deckId/cards/:cardId/edit">
-            <CardForm updateStatus={updateStatus} />
+            <CardForm
+              updateStatus={updateStatus}
+              setUpdateDecks={setUpdateDecks}
+            />
           </Route>
           <Route path="/decks/:deckId/study">
             <StudyView updateStatus={updateStatus} />

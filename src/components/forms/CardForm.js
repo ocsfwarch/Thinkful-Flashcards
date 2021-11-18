@@ -4,7 +4,7 @@ import { readDeck, createCard, updateCard } from "../../utils/api/index";
 import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
-const CardForm = ({ updateStatus }) => {
+const CardForm = ({ setUpdateDecks, updateStatus }) => {
   const { deckId, cardId } = useParams();
   const [deck, setDeck] = useState({});
   const [card, setCard] = useState({ deckId: deckId, front: "", back: "" });
@@ -19,30 +19,29 @@ const CardForm = ({ updateStatus }) => {
         if (theDeck) {
           setDeck(theDeck);
           // Set the card
-          const theCard = await theDeck.cards.find(
-            (card) => +card.id === +cardId
-          );
-          if (theCard) {
-            setCard(theCard);
+          if (theDeck && theDeck.cards && theDeck.cards.length) {
+            const theCard = await theDeck.cards.find(
+              (card) => +card.id === +cardId
+            );
+            if (theCard) {
+              setCard(theCard);
+            }
           }
-          setCrumbs(
-            (current) =>
-              (current = [
-                { id: 0, title: "Home", type: "link", value: "" },
-                {
-                  id: 1,
-                  title: theDeck.name,
-                  type: "link",
-                  value: `decks/${deckId}`,
-                },
-                {
-                  id: 2,
-                  title: cardId ? "Edit Card" : "Add Card",
-                  type: "text",
-                  value: cardId ? "Edit Card" : "Add Card",
-                },
-              ])
-          );
+          setCrumbs([
+            { id: 0, title: "Home", type: "link", value: "" },
+            {
+              id: 1,
+              title: theDeck.name,
+              type: "link",
+              value: `decks/${deckId}`,
+            },
+            {
+              id: 2,
+              title: cardId ? "Edit Card" : "Add Card",
+              type: "text",
+              value: cardId ? "Edit Card" : "Add Card",
+            },
+          ]);
         }
       } catch (error) {
         updateStatus(`ERROR: ${error.message}`);
@@ -96,6 +95,7 @@ const CardForm = ({ updateStatus }) => {
       const results = await createCard(deckId, card, controller.signal);
       if (results) {
         updateStatus(`The card was created`);
+        setUpdateDecks(true);
       } else {
         updateStatus(`The card was not created.`);
       }
