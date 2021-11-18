@@ -41,26 +41,40 @@ const StudyCard = ({ deck }) => {
     }
   };
   return (
-    <div>
-      <h2>{`Card ${studyState.current + 1} of ${deck.cards.length}`}</h2>
-      <h3>{studyState.isFlipped ? studyState.back : studyState.front}</h3>
-      <button
-        type="button"
-        className="btn btn-success"
-        onClick={handleFlip}
-        disabled={studyState.isFlipped}
-      >
-        <span className="oi oi-bolt" />
-        <span className="pl-3 font-weight-bold">Flip</span>
-      </button>
-      {studyState.isFlipped ? (
-        <button type="button" className="btn btn-primary" onClick={handleFlip}>
-          <span className="oi oi-arrow-circle-right" />
-          <span className="pl-3 font-weight-bold">Next</span>
+    <div className="card add-shadow">
+      <div className="card-header">
+        <div className="card-name-display">
+          <span className="title">{`Card ${studyState.current + 1} of ${
+            deck.cards.length
+          }`}</span>
+        </div>
+      </div>
+      <div className="card-body card-text">
+        {studyState.isFlipped ? studyState.back : studyState.front}
+      </div>
+      <div className="card-footer">
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={handleFlip}
+          disabled={studyState.isFlipped}
+        >
+          <span className="oi oi-bolt" />
+          <span className="pl-3 font-weight-bold">Flip</span>
         </button>
-      ) : (
-        <span></span>
-      )}
+        {studyState.isFlipped ? (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleFlip}
+          >
+            <span className="oi oi-arrow-circle-right" />
+            <span className="pl-3 font-weight-bold">Next</span>
+          </button>
+        ) : (
+          <span></span>
+        )}
+      </div>
     </div>
   );
 };
