@@ -17,7 +17,6 @@ const CardForm = () => {
       try {
         const theDeck = await readDeck(deckId, controller.signal);
         if (theDeck) {
-          //console.log(`Setting the deck, ${theDeck.cards.length}`);
           setDeck(theDeck);
           // Set the card
           const theCard = await theDeck.cards.find(
@@ -51,13 +50,11 @@ const CardForm = () => {
     }
     getDeck();
     return () => {
-      console.log(`getDeck DONE`);
       controller.abort();
     };
   }, [deckId, cardId]);
 
   const handleChange = (e) => {
-    //console.log(`val = ${e.target.value}`);
     setCard({ ...card, [e.target.name]: e.target.value });
   };
 
@@ -68,13 +65,11 @@ const CardForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(`CAlling submit, deckId = ${deckId}, cardId = ${cardId}`);
     if (deckId && cardId) {
       modifyCard();
       history.goBack();
     } else {
       addCard();
-      console.log(`clearing card`);
       setCard({ deckId: deckId, front: "", back: "" });
     }
   };
@@ -97,7 +92,6 @@ const CardForm = () => {
 
   const addCard = async () => {
     controller = new AbortController();
-    console.log(`front = ${card.front}, back = ${card.back}`);
     try {
       const results = await createCard(deckId, card, controller.signal);
       if (results) {

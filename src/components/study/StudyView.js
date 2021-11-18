@@ -40,7 +40,6 @@ const StudyView = () => {
     }
     getDeck();
     return () => {
-      //console.log(`getDeck DONE`);
       controller.abort();
     };
   }, [deckId]);

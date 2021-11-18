@@ -52,7 +52,6 @@ const DeckForm = ({ setUpdateDecks }) => {
 
     getDeck();
     return () => {
-      console.log(`getDeck DONE`);
       controller.abort();
     };
   }, [deckId]);

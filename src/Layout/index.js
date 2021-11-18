@@ -34,7 +34,6 @@ function Layout() {
     }
     getDecks();
     return () => {
-      console.log(`getDecks DONE`);
       controller.abort();
     };
   }, [updateDecks]);
@@ -44,19 +43,15 @@ function Layout() {
       `Delete this deck?\n\nYou will not be able to recover it.`
     );
     if (result) {
-      console.log(`HANDLING DELETE`);
       controller = new AbortController();
       try {
         const results = await deleteDeck(deckId, controller.signal);
         if (results) {
-          console.log(`delete worked!`);
           setUpdateDecks((current) => (current = true));
         }
       } catch (error) {
         console.log(`ERROR = ${error.message}`);
       }
-      //await deletePost(id);
-      // TODO: After the post is deleted, send the user to the home page.
       history.push("/");
     }
   };

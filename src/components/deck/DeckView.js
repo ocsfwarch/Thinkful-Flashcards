@@ -37,7 +37,6 @@ const DeckView = ({ handleDeckDelete }) => {
     }
     getDeck();
     return () => {
-      console.log(`getDeck DONE`);
       controller.abort();
     };
   }, [deckId]);
@@ -47,12 +46,10 @@ const DeckView = ({ handleDeckDelete }) => {
       `Delete this card?\n\nYou will not be able to recover it.`
     );
     if (result) {
-      console.log(`HANDLING DELETE`);
       controller = new AbortController();
       try {
         const results = await deleteCard(cardId, controller.signal);
         if (results) {
-          console.log(`delete worked!`);
           //setUpdateDecks((current) => (current = true));
           const newCards = deck.cards.filter((card) => +card.id !== +cardId);
           setDeck({ ...deck, cards: [...newCards] });
@@ -60,9 +57,6 @@ const DeckView = ({ handleDeckDelete }) => {
       } catch (error) {
         console.log(`ERROR = ${error.message}`);
       }
-      //await deletePost(id);
-      // TODO: After the post is deleted, send the user to the home page.
-      //history.push("/");
     }
   };
 

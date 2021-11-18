@@ -1,10 +1,7 @@
 import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Card = ({ card, handleCardDelete, deckId }) => {
-  const { url } = useRouteMatch();
-  console.log(`url = ${url}`);
-
   return (
     <div key={card.id} className="card add-shadow mb-4">
       <div className="card-body card-text">
