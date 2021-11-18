@@ -7,7 +7,7 @@ import BreadCrumb from "../controls/BreadCrumb";
 import PleaseWait from "../controls/PleaseWait/PleaseWait";
 
 let controller;
-const DeckView = ({ updateStatus, handleDeckDelete }) => {
+const DeckView = ({ handleDeckDelete }) => {
   const [deck, setDeck] = useState({ cards: [] });
   const [crumbs, setCrumbs] = useState([]);
   const [pleaseWait, setPleaseWait] = useState(true);
@@ -32,14 +32,14 @@ const DeckView = ({ updateStatus, handleDeckDelete }) => {
           setPleaseWait(false);
         }
       } catch (error) {
-        updateStatus(`ERROR: ${error.message}`);
+        //updateStatus(`ERROR: ${error.message}`);
       }
     }
     getDeck();
     return () => {
       controller.abort();
     };
-  }, [deckId, updateStatus]);
+  }, [deckId]);
 
   const handleCardDelete = async (cardId) => {
     const result = window.confirm(
@@ -54,7 +54,7 @@ const DeckView = ({ updateStatus, handleDeckDelete }) => {
           setDeck({ ...deck, cards: [...newCards] });
         }
       } catch (error) {
-        updateStatus(`ERROR = ${error.message}`);
+        //updateStatus(`ERROR = ${error.message}`);
       }
     }
   };
