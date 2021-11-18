@@ -13,13 +13,11 @@ import { readDeck, deleteCard } from "../../utils/api/index";
 import Deck from "./Deck";
 import Card from "./Card";
 import BreadCrumb from "../controls/BreadCrumb";
-import PleaseWait from "../controls/PleaseWait/PleaseWait";
 
 let controller;
 const DeckView = ({ handleDeckDelete }) => {
   const [deck, setDeck] = useState({ cards: [] });
   const [crumbs, setCrumbs] = useState([]);
-  const [pleaseWait, setPleaseWait] = useState(true);
   const { deckId } = useParams();
 
   useEffect(() => {
@@ -38,7 +36,6 @@ const DeckView = ({ handleDeckDelete }) => {
               value: theDeck.name,
             },
           ]);
-          setPleaseWait(false);
         }
       } catch (error) {
         //updateStatus(`ERROR: ${error.message}`);
@@ -71,7 +68,6 @@ const DeckView = ({ handleDeckDelete }) => {
   return (
     <div>
       <BreadCrumb linkId={"DeckView"} crumbs={crumbs} />
-      <PleaseWait showMe={pleaseWait} />
       <Deck
         key={deck.id}
         deck={deck}
