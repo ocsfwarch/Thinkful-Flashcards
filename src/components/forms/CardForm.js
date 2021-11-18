@@ -123,6 +123,7 @@ const CardForm = () => {
             name="front"
             onChange={handleChange}
             value={card.front}
+            placeholder="Front side of card"
             required
           ></textarea>
         </label>
@@ -132,6 +133,7 @@ const CardForm = () => {
             name="back"
             onChange={handleChange}
             value={card.back}
+            placeholder="Back side of card"
             required
           ></textarea>
         </label>

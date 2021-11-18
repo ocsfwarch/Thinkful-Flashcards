@@ -111,6 +111,7 @@ const DeckForm = ({ setUpdateDecks }) => {
           name="name"
           onChange={handleChange}
           value={deck.name}
+          placeholder="Deck Name"
           required
         />
         <label htmlFor="description">Description</label>
@@ -119,6 +120,7 @@ const DeckForm = ({ setUpdateDecks }) => {
           name="description"
           onChange={handleChange}
           value={deck.description}
+          placeholder="Brief description of deck"
           required
         ></textarea>
         <button type="button" className="btn btn-danger" onClick={handleCancel}>
