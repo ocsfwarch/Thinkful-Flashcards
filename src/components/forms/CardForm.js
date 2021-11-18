@@ -4,7 +4,7 @@ import { readDeck, createCard, updateCard } from "../../utils/api/index";
 import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
-const CardForm = () => {
+const CardForm = ({ updateStatus }) => {
   const { deckId, cardId } = useParams();
   const [deck, setDeck] = useState({});
   const [card, setCard] = useState({ deckId: deckId, front: "", back: "" });
@@ -45,14 +45,14 @@ const CardForm = () => {
           );
         }
       } catch (error) {
-        console.log(`ERROR: ${error.message}`);
+        updateStatus(`ERROR: ${error.message}`);
       }
     }
     getDeck();
     return () => {
       controller.abort();
     };
-  }, [deckId, cardId]);
+  }, [deckId, cardId, updateStatus]);
 
   const handleChange = (e) => {
     setCard({ ...card, [e.target.name]: e.target.value });
@@ -81,12 +81,12 @@ const CardForm = () => {
       setCard({ ...card, [`id`]: cardId });
       const results = await updateCard(card, controller.signal);
       if (results) {
-        console.log(`The card was updated`);
+        updateStatus(`The card was updated`);
       } else {
-        console.log(`The card was not updated.`);
+        updateStatus(`The card was not updated.`);
       }
     } catch (error) {
-      console.log(`ERROR: ${error.message}`);
+      updateStatus(`ERROR: ${error.message}`);
     }
   };
 
@@ -95,12 +95,12 @@ const CardForm = () => {
     try {
       const results = await createCard(deckId, card, controller.signal);
       if (results) {
-        console.log(`The card was created`);
+        updateStatus(`The card was created`);
       } else {
-        console.log(`The card was not created.`);
+        updateStatus(`The card was not created.`);
       }
     } catch (error) {
-      console.log(`ERROR: ${error.message}`);
+      updateStatus(`ERROR: ${error.message}`);
     }
   };
 

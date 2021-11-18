@@ -8,6 +8,7 @@ import DeckForm from "../components/forms/DeckForm";
 import CardForm from "../components/forms/CardForm";
 import DeckView from "../components/deck/DeckView";
 import StudyView from "../components/study/StudyView";
+import Status from "../components/controls/Status";
 import { deleteDeck, listDecks } from "../utils/api/index";
 import { useHistory } from "react-router-dom";
 
@@ -15,7 +16,17 @@ let controller;
 function Layout() {
   const [decks, setDecks] = useState([]);
   const [updateDecks, setUpdateDecks] = useState(true);
+  const [status, setStatus] = useState(""); // This contains the status information
   const history = useHistory();
+
+  // The purpose of this hook is to clear the status field
+  // after 1 second.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      updateStatus("");
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [status]);
 
   useEffect(() => {
     controller = new AbortController();
@@ -26,10 +37,10 @@ function Layout() {
           if (theDecks && theDecks.length) {
             setDecks(theDecks);
           }
-          setUpdateDecks((current) => (current = false));
+          setUpdateDecks(false);
         }
       } catch (error) {
-        console.log(`ERROR: ${error.message}`);
+        updateStatus(`ERROR: ${error.message}`);
       }
     }
     getDecks();
@@ -50,15 +61,20 @@ function Layout() {
           setUpdateDecks((current) => (current = true));
         }
       } catch (error) {
-        console.log(`ERROR = ${error.message}`);
+        updateStatus(`ERROR = ${error.message}`);
       }
       history.push("/");
     }
   };
 
+  const updateStatus = (strStatus) => {
+    setStatus(strStatus);
+  };
+
   return (
     <>
       <Header />
+      <Status status={status} />
       <div className="container">
         {/* TODO: Implement the screen starting here */}
         <Switch>
@@ -67,22 +83,31 @@ function Layout() {
             <DeckList decks={decks} handleDeckDelete={handleDeckDelete} />
           </Route>
           <Route path="/decks/new">
-            <DeckForm setUpdateDecks={setUpdateDecks} />
+            <DeckForm
+              updateStatus={updateStatus}
+              setUpdateDecks={setUpdateDecks}
+            />
           </Route>
           <Route path="/decks/:deckId/edit">
-            <DeckForm setUpdateDecks={setUpdateDecks} />
+            <DeckForm
+              updateStatus={updateStatus}
+              setUpdateDecks={setUpdateDecks}
+            />
           </Route>
           <Route path="/decks/:deckId/cards/new">
-            <CardForm />
+            <CardForm updateStatus={updateStatus} />
           </Route>
           <Route path="/decks/:deckId/cards/:cardId/edit">
-            <CardForm />
+            <CardForm updateStatus={updateStatus} />
           </Route>
           <Route path="/decks/:deckId/study">
-            <StudyView />
+            <StudyView updateStatus={updateStatus} />
           </Route>
           <Route path="/decks/:deckId">
-            <DeckView handleDeckDelete={handleDeckDelete} />
+            <DeckView
+              updateStatus={updateStatus}
+              handleDeckDelete={handleDeckDelete}
+            />
           </Route>
           <NotFound />
         </Switch>

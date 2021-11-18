@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
-const DeckForm = ({ setUpdateDecks }) => {
+const DeckForm = ({ setUpdateDecks, updateStatus }) => {
   const [deck, setDeck] = useState({ name: "", description: "" });
   const [crumbs, setCrumbs] = useState([]);
   const history = useHistory();
@@ -46,7 +46,7 @@ const DeckForm = ({ setUpdateDecks }) => {
           );
         }
       } catch (error) {
-        console.log(`ERROR: ${error.message}`);
+        updateStatus(`ERROR: ${error.message}`);
       }
     }
 
@@ -54,7 +54,7 @@ const DeckForm = ({ setUpdateDecks }) => {
     return () => {
       controller.abort();
     };
-  }, [deckId]);
+  }, [deckId, updateStatus]);
 
   const handleChange = (e) => {
     setDeck({ ...deck, [e.target.name]: e.target.value });
@@ -81,7 +81,7 @@ const DeckForm = ({ setUpdateDecks }) => {
         history.push(`/decks/${newDeck.id}`);
       }
     } catch (error) {
-      console.log(`ERROR = ${error.message}`);
+      updateStatus(`ERROR = ${error.message}`);
     }
   };
 
@@ -94,7 +94,7 @@ const DeckForm = ({ setUpdateDecks }) => {
         history.push(`/decks/${newDeck.id}`);
       }
     } catch (error) {
-      console.log(`ERROR = ${error.message}`);
+      updateStatus(`ERROR = ${error.message}`);
     }
   };
 

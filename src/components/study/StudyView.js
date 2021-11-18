@@ -6,7 +6,7 @@ import StudyCard from "./StudyCard";
 import StudyNotEnoughCards from "./StudyNotEnoughCard";
 
 let controller;
-const StudyView = () => {
+const StudyView = ({ updateStatus }) => {
   const [deck, setDeck] = useState({ cards: [] });
   const [crumbs, setCrumbs] = useState([]);
   const { deckId } = useParams();
@@ -35,14 +35,14 @@ const StudyView = () => {
           ]);
         }
       } catch (error) {
-        console.log(`ERROR: ${error.message}`);
+        updateStatus(`ERROR: ${error.message}`);
       }
     }
     getDeck();
     return () => {
       controller.abort();
     };
-  }, [deckId]);
+  }, [deckId, updateStatus]);
 
   return (
     <div>

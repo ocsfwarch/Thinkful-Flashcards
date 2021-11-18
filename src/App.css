@@ -2,6 +2,11 @@
   margin-bottom: 1rem;
 }
 
+.status {
+  padding-left: 2em;
+  background-color: lightblue;
+}
+
 .card-name-display {
   display: flex;
   justify-content: space-between;
