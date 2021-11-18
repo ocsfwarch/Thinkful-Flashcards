@@ -34,6 +34,39 @@ label {
   font-weight: bold;
 }
 
+/* START BreadCrumb styling */
+.nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: lightgray;
+  height: 3rem;
+}
+
+.nav ul li {
+  list-style-type: none;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  padding-left: 2rem;
+  margin-bottom: 0;
+  font-size: 1.5rem;
+  color: #666666;
+}
+
+.nav ul li a {
+  color: #0099ff;
+  text-decoration: none;
+  padding: 0 20px 0 0;
+}
+
+.nav ul li a:hover {
+  color: #33cfff;
+  text-decoration: none;
+}
+
 /* START CARD ANIMATION */
 @keyframes rotate_front {
   from {
