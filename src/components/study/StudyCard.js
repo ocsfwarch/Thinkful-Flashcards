@@ -1,3 +1,10 @@
+/*
+  The purpose of this component is to manage the display
+  of the study card materials
+  Props:
+      deck - This is the deck that is to be studied.
+*/
+
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 

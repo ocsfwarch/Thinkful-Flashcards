@@ -1,3 +1,11 @@
+/*
+  The purpose of this component is to allow a user
+  to add cards to a deck or modify cards already in a deck.
+  Props:
+      setUpdateDecks - This function triggers the app to refresh the decks.
+      updateStatus - This function triggers the Status display.
+*/
+
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { readDeck, createCard, updateCard } from "../../utils/api/index";

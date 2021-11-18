@@ -1,3 +1,10 @@
+/*
+  The purpose of this component is to allow a user
+  to study the cards in a deck.
+  Props:
+      updateStatus - This function triggers the Status display.
+*/
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { readDeck } from "../../utils/api/index";

@@ -1,3 +1,14 @@
+/*
+  The purpose of this component is to display deck information to the user
+  and allows them control actions for manipulating the deck information.
+
+  Props:
+      deck - The deck to display.
+      handleDeckDelete - This function performs the actual deck deletion and
+      subsequent display updates.
+      showTotal - This parameter controls whether the total cards in a deck are displayed. 
+*/
+
 import React from "react";
 import { Link } from "react-router-dom";
 

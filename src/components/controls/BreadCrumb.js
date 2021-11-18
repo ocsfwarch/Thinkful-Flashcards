@@ -1,3 +1,12 @@
+/*
+  The purpose of this component is to display a breadcrumb route
+  for user navigation.
+
+  Props:
+      crumbs - An array of crumbs to display.
+      linkId - This is a string and is used to create unique keys.
+*/
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 

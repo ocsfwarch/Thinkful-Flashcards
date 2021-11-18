@@ -1,3 +1,13 @@
+/*
+  The purpose of this component is to display a list of decks
+  to the user.
+
+  Props:
+      decks - The list of decks to display.
+      handleDeckDelete - This function performs the actual deck deletion and
+      subsequent display updates.
+*/
+
 import React, { useState, useEffect } from "react";
 import Deck from "./Deck";
 

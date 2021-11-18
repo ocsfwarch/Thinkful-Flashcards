@@ -1,3 +1,12 @@
+/*
+  The purpose of this component is to display the deck
+  information and any existing card information to the user.
+
+  Props:
+      handleDeckDelete - This function performs the actual deck deletion and
+      subsequent display updates.
+*/
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { readDeck, deleteCard } from "../../utils/api/index";

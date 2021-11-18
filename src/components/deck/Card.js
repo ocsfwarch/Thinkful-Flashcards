@@ -1,3 +1,14 @@
+/*
+  The purpose of this component is to display card information to the user
+  and allows them control actions for manipulating the card information.
+
+  Props:
+      card - The card to display.
+      handleDeckDelete - This function performs the actual deck deletion and
+      subsequent display updates.
+      deckId - This parameter contains the id for the deck associated with the card. 
+*/
+
 import React from "react";
 import { Link } from "react-router-dom";
 

@@ -1,3 +1,9 @@
+/*
+  The purpose of this component is to display a command
+  button to the user to allow them to create new decks.
+
+*/
+
 import React from "react";
 import { Link } from "react-router-dom";
 
