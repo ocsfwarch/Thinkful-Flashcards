@@ -116,34 +116,46 @@ const CardForm = () => {
       <h1>
         {deck.name}: {cardId ? "Edit Card" : "Add Card"}
       </h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="front">
-          <textarea
-            id="front"
-            name="front"
-            onChange={handleChange}
-            value={card.front}
-            required
-          ></textarea>
-        </label>
-        <label htmlFor="back">
-          <textarea
-            id="back"
-            name="back"
-            onChange={handleChange}
-            value={card.back}
-            required
-          ></textarea>
-        </label>
-        <button type="button" className="btn btn-danger" onClick={handleDone}>
-          <span className="oi oi-x" />
-          <span className="pl-3 font-weight-bold">Done</span>
-        </button>
-        <button type="submit" className="btn btn-success">
-          <span className="oi oi-plus" />
-          <span className="pl-3 font-weight-bold">Submit</span>
-        </button>
-      </form>
+      <div className="card add-shadow">
+        <div className="card-body card-text">
+          <form onSubmit={handleSubmit}>
+            <div className="basic-form">
+              <label htmlFor="front">Front</label>
+              <textarea
+                id="front"
+                name="front"
+                onChange={handleChange}
+                value={card.front}
+                placeholder="Front side of card"
+                required
+              ></textarea>
+              <label htmlFor="back">Back</label>
+              <textarea
+                id="back"
+                name="back"
+                onChange={handleChange}
+                value={card.back}
+                placeholder="Back side of card"
+                required
+              ></textarea>
+            </div>
+            <div className="card-footer">
+              <button
+                type="button"
+                className="btn btn-danger mr-2"
+                onClick={handleDone}
+              >
+                <span className="oi oi-x" />
+                <span className="pl-3 font-weight-bold">Done</span>
+              </button>
+              <button type="submit" className="btn btn-success">
+                <span className="oi oi-plus" />
+                <span className="pl-3 font-weight-bold">Save</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

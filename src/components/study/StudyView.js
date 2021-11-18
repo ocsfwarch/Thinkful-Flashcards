@@ -50,7 +50,7 @@ const StudyView = () => {
       <BreadCrumb linkId={"DeckView"} crumbs={crumbs} />
       <h1>{`Study: ${deck.name}`}</h1>
       {deck.cards.length < 3 ? (
-        <StudyNotEnoughCards deckId={deckId} />
+        <StudyNotEnoughCards deckId={deckId} totalCards={deck.cards.length} />
       ) : (
         <StudyCard deck={deck} />
       )}

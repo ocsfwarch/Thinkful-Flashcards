@@ -41,7 +41,7 @@ function Layout() {
 
   const handleDeckDelete = async (deckId) => {
     const result = window.confirm(
-      `Are you sure you want to delete this deckId = ${deckId}?`
+      `Delete this deck?\n\nYou will not be able to recover it.`
     );
     if (result) {
       console.log(`HANDLING DELETE`);

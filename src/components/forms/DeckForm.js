@@ -100,37 +100,52 @@ const DeckForm = ({ setUpdateDecks }) => {
   };
 
   return (
-    <section>
+    <div>
       <BreadCrumb linkId={"DeckForm"} crumbs={crumbs} />
       <h1>{deckId ? "Edit Deck" : "Create Deck"}</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          onChange={handleChange}
-          value={deck.name}
-          required
-        />
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          name="description"
-          onChange={handleChange}
-          value={deck.description}
-          required
-        ></textarea>
-        <button type="button" className="btn btn-danger" onClick={handleCancel}>
-          <span className="oi oi-x" />
-          <span className="pl-3 font-weight-bold">Cancel</span>
-        </button>
-        <button type="submit" className="btn btn-success">
-          <span className="oi oi-plus" />
-          <span className="pl-3 font-weight-bold">Submit</span>
-        </button>
-      </form>
-    </section>
+
+      <div className="card add-shadow">
+        <div className="card-body card-text">
+          <form onSubmit={handleSubmit}>
+            <div className="basic-form">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                onChange={handleChange}
+                value={deck.name}
+                placeholder="Deck Name"
+                required
+              />
+              <label htmlFor="description">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                onChange={handleChange}
+                value={deck.description}
+                placeholder="Brief description of deck"
+                required
+              ></textarea>
+            </div>
+            <div className="card-footer">
+              <button
+                type="button"
+                className="btn btn-danger mr-2"
+                onClick={handleCancel}
+              >
+                <span className="oi oi-x" />
+                <span className="pl-3 font-weight-bold">Cancel</span>
+              </button>
+              <button type="submit" className="btn btn-success">
+                <span className="oi oi-plus" />
+                <span className="pl-3 font-weight-bold">Submit</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 
