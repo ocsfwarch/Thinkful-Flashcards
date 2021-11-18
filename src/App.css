@@ -20,6 +20,20 @@
   box-shadow: 5px 5px 5px 3px #808080;
 }
 
+.basic-form {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+textarea {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+label {
+  font-weight: bold;
+}
+
 /* START CARD ANIMATION */
 @keyframes rotate_front {
   from {
