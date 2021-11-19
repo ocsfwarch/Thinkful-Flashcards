@@ -11,11 +11,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { readDeck, deleteCard } from "../../utils/api/index";
 import Deck from "./Deck";
-import Card from "./Card";
+import CardList from "../card/CardList";
 import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
-const DeckView = ({ handleDeckDelete }) => {
+const DeckView = ({ updateStatus, handleDeckDelete }) => {
   const [deck, setDeck] = useState({ cards: [] });
   const [crumbs, setCrumbs] = useState([]);
   const { deckId } = useParams();
@@ -38,14 +38,14 @@ const DeckView = ({ handleDeckDelete }) => {
           ]);
         }
       } catch (error) {
-        //updateStatus(`ERROR: ${error.message}`);
+        updateStatus(`ERROR: ${error.message}`);
       }
     }
     getDeck();
     return () => {
       controller.abort();
     };
-  }, [deckId]);
+  }, [deckId, updateStatus]);
 
   const handleCardDelete = async (cardId) => {
     const result = window.confirm(
@@ -60,7 +60,7 @@ const DeckView = ({ handleDeckDelete }) => {
           setDeck({ ...deck, cards: [...newCards] });
         }
       } catch (error) {
-        //updateStatus(`ERROR = ${error.message}`);
+        updateStatus(`ERROR = ${error.message}`);
       }
     }
   };
@@ -74,19 +74,7 @@ const DeckView = ({ handleDeckDelete }) => {
         handleDeckDelete={handleDeckDelete}
         showTotal={false}
       />
-      <section>
-        <h1>Cards</h1>
-        {deck && deck.cards && deck.cards.length
-          ? deck.cards.map((card) => (
-              <Card
-                key={card.id}
-                deckId={deckId}
-                card={card}
-                handleCardDelete={handleCardDelete}
-              />
-            ))
-          : " "}
-      </section>
+      <CardList deck={deck} handleCardDelete={handleCardDelete} />
     </div>
   );
 };
