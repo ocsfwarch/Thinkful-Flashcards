@@ -76,14 +76,16 @@ const DeckView = ({ handleDeckDelete }) => {
       />
       <section>
         <h1>Cards</h1>
-        {deck.cards.map((card) => (
-          <Card
-            key={card.id}
-            deckId={deckId}
-            card={card}
-            handleCardDelete={handleCardDelete}
-          />
-        ))}
+        {deck && deck.cards && deck.cards.length
+          ? deck.cards.map((card) => (
+              <Card
+                key={card.id}
+                deckId={deckId}
+                card={card}
+                handleCardDelete={handleCardDelete}
+              />
+            ))
+          : " "}
       </section>
     </div>
   );

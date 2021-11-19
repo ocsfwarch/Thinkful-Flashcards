@@ -92,8 +92,8 @@ const DeckForm = ({ setUpdateDecks, updateStatus }) => {
     try {
       const newDeck = await updateDeck(deck, controller.signal);
       if (newDeck) {
-        setUpdateDecks(true);
         history.push(`/decks/${newDeck.id}`);
+        setUpdateDecks(true);
       }
     } catch (error) {
       updateStatus(`ERROR = ${error.message}`);
