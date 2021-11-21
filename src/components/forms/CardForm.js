@@ -1,55 +1,39 @@
 /*
-  The purpose of this component is to allow a user
+  The purpose of this component is to provide a form
   to add cards to a deck or modify cards already in a deck.
   Props:
+      deckId - Identifies the deck to update.
+      cardId - Identifies the card to update, if included.
       setUpdateDecks - This function triggers the app to refresh the decks.
       updateStatus - This function triggers the Status display.
 */
 
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { readDeck, createCard, updateCard } from "../../utils/api/index";
-import BreadCrumb from "../controls/BreadCrumb";
 
 let controller;
-const CardForm = ({ setUpdateDecks, updateStatus }) => {
-  const { deckId, cardId } = useParams();
-  const [deck, setDeck] = useState({});
-  const [card, setCard] = useState({ deckId: deckId, front: "", back: "" });
-  const [crumbs, setCrumbs] = useState([]);
+const CardForm = ({ deckId, cardId, setUpdateDecks, updateStatus }) => {
+  const [card, setCard] = useState({ front: "", back: "" });
   const history = useHistory();
 
   useEffect(() => {
     controller = new AbortController();
     async function getDeck() {
       try {
-        const theDeck = await readDeck(deckId, controller.signal);
-        if (theDeck) {
-          setDeck(theDeck);
-          // Set the card
-          if (theDeck && theDeck.cards && theDeck.cards.length) {
-            const theCard = await theDeck.cards.find(
-              (card) => +card.id === +cardId
-            );
-            if (theCard) {
-              setCard(theCard);
+        if (cardId) {
+          const theDeck = await readDeck(deckId, controller.signal);
+          if (theDeck) {
+            // Set the card, if found
+            if (theDeck && theDeck.cards && theDeck.cards.length) {
+              const theCard = await theDeck.cards.find(
+                (card) => +card.id === +cardId
+              );
+              if (theCard) {
+                setCard(theCard);
+              }
             }
           }
-          setCrumbs([
-            { id: 0, title: "Home", type: "link", value: "" },
-            {
-              id: 1,
-              title: theDeck.name,
-              type: "link",
-              value: `decks/${deckId}`,
-            },
-            {
-              id: 2,
-              title: cardId ? "Edit Card" : "Add Card",
-              type: "text",
-              value: cardId ? "Edit Card" : "Add Card",
-            },
-          ]);
         }
       } catch (error) {
         updateStatus(`ERROR: ${error.message}`);
@@ -84,7 +68,7 @@ const CardForm = ({ setUpdateDecks, updateStatus }) => {
   const modifyCard = async () => {
     controller = new AbortController();
     try {
-      // Make sure there is a cardId
+      // Make sure there is a cardId, for card updates
       setCard({ ...card, [`id`]: cardId });
       const results = await updateCard(card, controller.signal);
       if (results) {
@@ -100,6 +84,7 @@ const CardForm = ({ setUpdateDecks, updateStatus }) => {
   const addCard = async () => {
     controller = new AbortController();
     try {
+      // cardId is not required for new cards
       const results = await createCard(deckId, card, controller.signal);
       if (results) {
         updateStatus(`The card was created`);
@@ -113,52 +98,42 @@ const CardForm = ({ setUpdateDecks, updateStatus }) => {
   };
 
   return (
-    <div>
-      <BreadCrumb linkId={"CardForm"} crumbs={crumbs} />
-      <h1>
-        {deck.name}: {cardId ? "Edit Card" : "Add Card"}
-      </h1>
-      <div className="card add-shadow">
-        <div className="card-body card-text">
-          <form onSubmit={handleSubmit}>
-            <div className="basic-form">
-              <label htmlFor="front">Front</label>
-              <textarea
-                id="front"
-                name="front"
-                onChange={handleChange}
-                value={card.front}
-                placeholder="Front side of card"
-                required
-              ></textarea>
-              <label htmlFor="back">Back</label>
-              <textarea
-                id="back"
-                name="back"
-                onChange={handleChange}
-                value={card.back}
-                placeholder="Back side of card"
-                required
-              ></textarea>
-            </div>
-            <div className="card-footer">
-              <button
-                type="button"
-                className="btn btn-danger mr-2"
-                onClick={handleDone}
-              >
-                <span className="oi oi-x" />
-                <span className="pl-3 font-weight-bold">Done</span>
-              </button>
-              <button type="submit" className="btn btn-success">
-                <span className="oi oi-plus" />
-                <span className="pl-3 font-weight-bold">Save</span>
-              </button>
-            </div>
-          </form>
-        </div>
+    <form onSubmit={handleSubmit}>
+      <div className="basic-form">
+        <label htmlFor="front">Front</label>
+        <textarea
+          id="front"
+          name="front"
+          onChange={handleChange}
+          value={card.front}
+          placeholder="Front side of card"
+          required
+        ></textarea>
+        <label htmlFor="back">Back</label>
+        <textarea
+          id="back"
+          name="back"
+          onChange={handleChange}
+          value={card.back}
+          placeholder="Back side of card"
+          required
+        ></textarea>
       </div>
-    </div>
+      <div className="card-footer">
+        <button
+          type="button"
+          className="btn btn-danger mr-2"
+          onClick={handleDone}
+        >
+          <span className="oi oi-x" />
+          <span className="pl-3 font-weight-bold">Done</span>
+        </button>
+        <button type="submit" className="btn btn-success">
+          <span className="oi oi-plus" />
+          <span className="pl-3 font-weight-bold">Save</span>
+        </button>
+      </div>
+    </form>
   );
 };
 

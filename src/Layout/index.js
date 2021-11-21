@@ -5,7 +5,6 @@ import { Switch, Route } from "react-router-dom";
 import CreateDeckBtn from "../components/controls/CreateDeckBtn";
 import DeckList from "../components/deck/DeckList";
 import DeckForm from "../components/forms/DeckForm";
-import CardForm from "../components/forms/CardForm";
 import DeckView from "../components/deck/DeckView";
 import StudyView from "../components/study/StudyView";
 import Status from "../components/controls/Status";
@@ -93,23 +92,12 @@ function Layout() {
               setUpdateDecks={setUpdateDecks}
             />
           </Route>
-          <Route path="/decks/:deckId/cards/new">
-            <CardForm
-              updateStatus={updateStatus}
-              setUpdateDecks={setUpdateDecks}
-            />
-          </Route>
-          <Route path="/decks/:deckId/cards/:cardId/edit">
-            <CardForm
-              updateStatus={updateStatus}
-              setUpdateDecks={setUpdateDecks}
-            />
-          </Route>
           <Route path="/decks/:deckId/study">
             <StudyView updateStatus={updateStatus} />
           </Route>
           <Route path="/decks/:deckId">
             <DeckView
+              setUpdateDecks={setUpdateDecks}
               updateStatus={updateStatus}
               handleDeckDelete={handleDeckDelete}
             />
