@@ -26,7 +26,7 @@ const DeckList = ({ decks, handleDeckDelete }) => {
         );
       });
       if (mappedDecks && mappedDecks.length) {
-        setDisplay((current) => (current = [...mappedDecks]));
+        setDisplay([...mappedDecks]);
       }
     }
     // We want to limit the number of times the display
